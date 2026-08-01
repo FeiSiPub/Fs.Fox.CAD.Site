@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "source_repository": "FsDiG/Fs.Fox.CAD",
+  "channels": {
+    "latest": {
+      "ref": "main",
+      "commit": "416c65f2eb4850ffe14cdd5458dc132ddfab101d",
+      "content_digest": "git-tree:add7849f0489f7e0745640c1f8814bf2e5c4d441"
+    },
+    "stable": {
+      "tag": "v1.0.3",
+      "commit": "d4120afd86d9eb710de3dfa3c065e39ac5be3e0f",
+      "content_digest": "git-tree:9c6a8d28afe1e0bcbf6edecade33ce5af8e22881"
+    }
+  }
+}

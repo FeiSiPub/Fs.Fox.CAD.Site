@@ -1,0 +1,18 @@
+{
+  "name": "fs-fox-cad-site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Presentation and deployment shell for Fs.Fox.CAD documentation.",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/acquire-source.mjs --channel latest && node scripts/build-bootstrap.mjs",
+    "check": "node scripts/source-lock.mjs verify && node --test",
+    "source:acquire": "node scripts/acquire-source.mjs",
+    "source:update": "node scripts/source-lock.mjs update",
+    "source:update-stable": "node scripts/source-lock.mjs update-stable",
+    "source:verify": "node scripts/source-lock.mjs verify --remote"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

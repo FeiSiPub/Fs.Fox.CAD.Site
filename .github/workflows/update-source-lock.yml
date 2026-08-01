@@ -1,0 +1,81 @@
+name: Update Fs.Fox.CAD source lock
+
+on:
+  workflow_dispatch:
+  repository_dispatch:
+    types:
+      - fs-fox-cad-source-updated
+  schedule:
+    - cron: "17 */6 * * *"
+
+permissions:
+  contents: write
+
+concurrency:
+  group: update-fs-fox-cad-source-lock
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Validate dispatch source
+        if: github.event_name == 'repository_dispatch'
+        shell: bash
+        env:
+          SOURCE_REPOSITORY: ${{ github.event.client_payload.source_repository }}
+        run: |
+          if [ "$SOURCE_REPOSITORY" != "FsDiG/Fs.Fox.CAD" ]; then
+            echo "Unexpected source repository: $SOURCE_REPOSITORY" >&2
+            exit 1
+          fi
+
+      - name: Checkout site repository
+        uses: actions/checkout@v5
+        with:
+          ref: main
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22.11.0
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Check repository state
+        run: npm run check
+
+      - name: Update latest source lock
+        run: npm run source:update
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Detect source lock change
+        id: changes
+        shell: bash
+        run: |
+          if git diff --quiet -- config/content-source.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Verify updated source lock
+        if: steps.changes.outputs.changed == 'true'
+        run: npm run source:verify
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Commit source lock
+        if: steps.changes.outputs.changed == 'true'
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- config/content-source.json
+          git commit -m "chore: update Fs.Fox.CAD source lock"
+          git push origin HEAD:main
