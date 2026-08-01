@@ -4,8 +4,8 @@
   "channels": {
     "latest": {
       "ref": "main",
-      "commit": "416c65f2eb4850ffe14cdd5458dc132ddfab101d",
-      "content_digest": "git-tree:add7849f0489f7e0745640c1f8814bf2e5c4d441"
+      "commit": "03fc4a4a786b7a1cc5b0fca5244ea9925b0294e5",
+      "content_digest": "git-tree:4681e28b488866b50b7179f9ce6307561ec69521"
     },
     "stable": {
       "tag": "v1.0.3",
