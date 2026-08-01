@@ -88,7 +88,7 @@ Fs.Fox.CAD main 内容/API 输入验证成功
   -> EdgeOne 自动构建
 ```
 
-GitHub App 应只安装到 `Fs.Fox.CAD.Site`。GitHub REST 当前要求创建 repository dispatch 的细粒度身份具有目标仓库 `Contents: write`，因此不能把它描述为纯只读权限。App 私钥、安装范围、轮换和撤销需要在启用前单独审查。
+GitHub App 应只安装到 `Fs.Fox.CAD.Site`。GitHub REST 当前要求创建 repository dispatch 的细粒度身份具有目标仓库 `Contents: write`，因此不能把它描述为纯只读权限。App 私钥、安装范围、轮换和撤销需要在启用前单独审查，实施与权限决策由 [Issue #1](https://github.com/FsDiG/Fs.Fox.CAD.Site/issues/1) 跟踪。
 
 receiver 不执行 dispatch payload 提供的 URL、命令或任意仓库。它只接受固定 `source_repository`，然后自行从 GitHub 查询 `FsDiG/Fs.Fox.CAD/main`，降低伪造 payload 的影响。
 
@@ -124,7 +124,7 @@ npm run source:verify
 | 构建 | `npm run build` |
 | 输出 | `dist` |
 
-EdgeOne 连接前后都不需要修改来源锁 schema。区域、正式域名、备案、HTTPS 和证书不保存在 Git 中，由仓库所有者在腾讯云侧配置并在相关 Issue 记录决策。
+EdgeOne 连接前后都不需要修改来源锁 schema。区域、正式域名、备案、HTTPS 和证书不保存在 Git 中，由仓库所有者在腾讯云侧配置并在 [Issue #2](https://github.com/FsDiG/Fs.Fox.CAD.Site/issues/2) 记录决策和验收结果。
 
 ## 8. 故障与恢复
 

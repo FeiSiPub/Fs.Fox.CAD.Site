@@ -57,7 +57,7 @@ npm run build
 - receiver 已接受 `fs-fox-cad-source-updated` 类型的 `repository_dispatch`，为后续 GitHub App 事件触发预留入口。
 - `stable` 不随 main 自动变化，只能通过明确的 Release tag 更新。
 
-生产级跨仓事件身份和分支保护见本仓库 Issues；当前定时 reconciliation 是不依赖跨仓密钥的启动方案。完整契约见 [来源集成说明](docs/source-integration.md)。
+生产级跨仓事件身份和分支保护由 [Issue #1](https://github.com/FsDiG/Fs.Fox.CAD.Site/issues/1) 跟踪；当前定时 reconciliation 是不依赖跨仓密钥的启动方案。完整契约见 [来源集成说明](docs/source-integration.md)。
 
 ## EdgeOne 接入
 
@@ -70,6 +70,8 @@ npm run build
 - 输出目录：`dist`
 
 在最终框架选型前，EdgeOne 只会部署来源连接状态页。不要把 EdgeOne 直接连接到 `Fs.Fox.CAD`，也不要把 API Token、部署钩子或域名凭据提交到本仓库。
+
+腾讯云侧连接参数、所有者决策和验收清单由 [Issue #2](https://github.com/FsDiG/Fs.Fox.CAD.Site/issues/2) 跟踪。
 
 ## 许可证
 
