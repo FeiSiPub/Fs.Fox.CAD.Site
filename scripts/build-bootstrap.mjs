@@ -59,8 +59,8 @@ async function main() {
   const docsUrl = `${sourceUrl}/blob/${latest.commit}/docs/README.md`;
   const siteCommitText = siteCommit || "unavailable in this checkout";
   const siteCommitUrl = siteCommit
-    ? `https://github.com/FsDiG/Fs.Fox.CAD.Site/commit/${siteCommit}`
-    : "https://github.com/FsDiG/Fs.Fox.CAD.Site";
+    ? `https://github.com/FeiSiPub/Fs.Fox.CAD.Site/commit/${siteCommit}`
+    : "https://github.com/FeiSiPub/Fs.Fox.CAD.Site";
 
   const html = `<!doctype html>
 <html lang="zh-CN">
