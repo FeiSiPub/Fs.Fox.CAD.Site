@@ -17,6 +17,7 @@ function sourceFileUrl(repository, commit, sourcePath) {
   return `https://github.com/${repository}/blob/${commit}/${sourcePath}`;
 }
 
+// Temporary adapter: its Markdown is generated under .cache, never maintained as product help.
 function placeholderPublication(source) {
   const sourceUrl = sourceCommitUrl(source.repository, source.commit);
   const docsIndexUrl = sourceFileUrl(

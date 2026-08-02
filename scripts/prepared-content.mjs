@@ -22,6 +22,7 @@ export function contentRootForCommit(commit) {
   return path.join(REPOSITORY_ROOT, ".cache", "content", commit);
 }
 
+// Stable trailing-slash routes map to index files independently of source file layout.
 export function routeToMarkdownPath(route) {
   if (
     typeof route !== "string" ||

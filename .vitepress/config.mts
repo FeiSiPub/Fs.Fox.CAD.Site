@@ -23,6 +23,7 @@ const contentRoot = path.join(
 const contentManifest = JSON.parse(
   readFileSync(path.join(contentRoot, "content-manifest.json"), "utf8"),
 );
+// Reject stale or mixed-source content before deriving navigation and search data.
 validatePreparedManifest(contentManifest, {
   channel: "latest",
   source_repository: sourceLock.source_repository,
