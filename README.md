@@ -2,7 +2,7 @@
 
 Fs.Fox.CAD 文档的展示与部署实现仓库。
 
-> 状态：Bootstrap<br>
+> 状态：VitePress 2 POC（占位内容）<br>
 > 产品内容源：[FsDiG/Fs.Fox.CAD](https://github.com/FsDiG/Fs.Fox.CAD)<br>
 > 架构跟踪：[Fs.Fox.CAD Issue #48](https://github.com/FsDiG/Fs.Fox.CAD/issues/48)<br>
 > EdgeOne：尚未连接，由仓库所有者在腾讯云控制台完成
@@ -32,23 +32,28 @@ Fs.Fox.CAD main / v1.0.3
   -> content-source.json（完整 commit + Git tree）
   -> 精确 SHA fetch 到 .cache/source/<commit>
   -> 校验 HEAD 与 tree
-  -> 生成 dist/index.html + dist/build-manifest.json
+  -> 生成 .cache/content/<commit> 占位 Markdown + 内容清单
+  -> VitePress 2 构建中文导航、本地搜索和静态页面
+  -> dist + build-manifest.json
 ```
 
-当前页面只是用于验证来源、构建和 EdgeOne 接入的启动页，不是最终文档站点，也不代表已经选择站点框架。
+当前精确锁定 `vitepress@2.0.0-alpha.19` 作为 POC 渲染器。构建生成 4 个占位页面，用于验证来源、路由、导航、中文搜索、静态输出和 EdgeOne 接入；它们不包含产品帮助正文，也不代表 VitePress 2 已成为不可替换的长期框架。
+
+源码仓库加入框架无关的 `docs/publication.yml` 后，内容适配器才会选择并转换真实 Markdown。届时 VitePress 配置仍只消费标准化内容清单，不在本站重新维护产品导航事实。
 
 ## 本地命令
 
-前置条件：Node.js 20+、Git。
+前置条件：Node.js 22.12+、Git。
 
 ```powershell
 npm ci
 npm run check
 npm run source:verify
 npm run build
+npm run dev
 ```
 
-构建输出位于 `dist`，源码缓存位于 `.cache/source`；两者均被 Git 忽略。
+构建输出位于 `dist`，源码与临时 Markdown 位于 `.cache/source` 和 `.cache/content`；这些目录均被 Git 忽略。`npm run dev` 默认在 `http://127.0.0.1:5173` 启动本地站点。
 
 ## 来源同步
 
@@ -64,12 +69,12 @@ npm run build
 仓库所有者可以在 EdgeOne Makers 导入本 GitHub 仓库，并使用：
 
 - 部署分支：`main`
-- Node.js：`22.11.0` 或兼容的 Node 22
+- Node.js：`22.12.0` 或更高的兼容版本
 - 安装命令：`npm ci`
 - 构建命令：`npm run build`
 - 输出目录：`dist`
 
-在最终框架选型前，EdgeOne 只会部署来源连接状态页。不要把 EdgeOne 直接连接到 `Fs.Fox.CAD`，也不要把 API Token、部署钩子或域名凭据提交到本仓库。
+当前 EdgeOne 会部署 VitePress 2 POC 占位站点；真实产品内容仍未接入。不要把 EdgeOne 直接连接到 `Fs.Fox.CAD`，也不要把 API Token、部署钩子或域名凭据提交到本仓库。
 
 腾讯云侧连接参数、所有者决策和验收清单由 [Issue #2](https://github.com/FeiSiPub/Fs.Fox.CAD.Site/issues/2) 跟踪。
 

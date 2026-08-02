@@ -1,7 +1,7 @@
 # Fs.Fox.CAD 来源集成契约
 
 > 状态：当前启动契约（Current）<br>
-> 日期：2026-08-01<br>
+> 日期：2026-08-02<br>
 > 跟踪：[Fs.Fox.CAD Issue #48](https://github.com/FsDiG/Fs.Fox.CAD/issues/48)
 
 ## 1. 目的
@@ -103,23 +103,27 @@ npm run source:verify
 
 提交前必须确认 tag、解析 commit、包版本和后续 API 数据包属于同一来源。普通 main push 和定时任务不得改变 stable。
 
-## 6. Bootstrap 构建
+## 6. VitePress 2 POC 构建
 
-`npm run build` 会获取 latest 精确 commit，然后生成：
+`npm run build` 会获取 latest 精确 commit，并执行以下阶段：
 
-- `dist/index.html`：来源连接状态页；
-- `dist/build-manifest.json`：source/site commit、Git tree、stable 信息和生成时间。
+1. `scripts/prepare-content.mjs` 验证已获取源码中的 `README.md` 和 `docs/README.md`；
+2. 在 `.cache/content/<commit>` 生成 4 个占位 Markdown 和标准化 `content-manifest.json`；
+3. 精确锁定的 `vitepress@2.0.0-alpha.19` 生成导航、带中英文分词适配的本地搜索和静态页面；
+4. `scripts/write-build-manifest.mjs` 写入 source/site commit、Git tree、VitePress 版本、页面路由和输出规模。
 
-这只是 EdgeOne 接入验证，不是最终文档站点。最终框架必须继续读取同一来源锁和缓存目录，不得改为构建时跟随 source main。
+占位 Markdown 只存在于被 Git 忽略的构建目录，明确标记真实产品内容尚未接入。它们用于跑通渲染核心流程，不是产品帮助正文，也不会成为第二个内容事实源。
+
+下一阶段由 `Fs.Fox.CAD` 提供框架无关的 `docs/publication.yml` 和页面元数据。适配器根据稳定 ID、公开状态和 route 生成相同内容清单，再以真实页面替换占位页。VitePress 专有配置仍留在本站，不写回源 Markdown。
 
 ## 7. EdgeOne 交接
 
-仓库所有者在 EdgeOne Makers 中连接 `FeiSiPub/Fs.Fox.CAD.Site`，而不是 source 仓库。Bootstrap 参数：
+仓库所有者在 EdgeOne Makers 中连接 `FeiSiPub/Fs.Fox.CAD.Site`，而不是 source 仓库。POC 参数：
 
 | 配置 | 值 |
 | --- | --- |
 | 分支 | `main` |
-| Node | `22.11.0` 或兼容 Node 22 |
+| Node | `22.12.0` 或更高的兼容版本 |
 | 安装 | `npm ci` |
 | 构建 | `npm run build` |
 | 输出 | `dist` |
@@ -141,10 +145,11 @@ EdgeOne 连接前后都不需要修改来源锁 schema。区域、正式域名�
 
 进入最终框架和 API 阶段前仍需：
 
-- 在 source 仓库定义 published/front matter schema；
+- 在 source 仓库定义 `docs/publication.yml` 与 published/front matter schema；
+- 用 3 至 5 篇真实 Markdown 替换占位页，完成链接、资源和稳定路由适配；
 - 生成与 source commit 绑定的 AutoCAD/ZWCAD API 数据包；
 - 决定数据包使用 Release asset、Packages/OCI 或 COS；
 - 创建最小权限 GitHub App 并完成事件触发；
 - 验证 EdgeOne preview、构建配额、域名和回滚。
 
-这些事项不阻塞当前精确来源获取和 Bootstrap 部署链路。
+这些事项不阻塞当前精确来源获取和 VitePress 2 占位 POC 部署链路。

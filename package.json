@@ -5,14 +5,20 @@
   "description": "Presentation and deployment shell for Fs.Fox.CAD documentation.",
   "type": "module",
   "scripts": {
-    "build": "node scripts/acquire-source.mjs --channel latest && node scripts/build-bootstrap.mjs",
+    "build": "npm run content:prepare && vitepress build . && node scripts/write-build-manifest.mjs --channel latest",
     "check": "node scripts/source-lock.mjs verify && node --test",
+    "content:prepare": "node scripts/acquire-source.mjs --channel latest && node scripts/prepare-content.mjs --channel latest",
+    "dev": "npm run content:prepare && vitepress dev . --host 127.0.0.1",
+    "preview": "vitepress preview . --host 127.0.0.1",
     "source:acquire": "node scripts/acquire-source.mjs",
     "source:update": "node scripts/source-lock.mjs update",
     "source:update-stable": "node scripts/source-lock.mjs update-stable",
     "source:verify": "node scripts/source-lock.mjs verify --remote"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=22.12.0"
+  },
+  "devDependencies": {
+    "vitepress": "2.0.0-alpha.19"
   }
 }
